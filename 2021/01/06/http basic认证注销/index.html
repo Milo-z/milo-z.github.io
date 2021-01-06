@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>解决 HTTP basic 认证注销问题 | Hexo</title>
+  <meta name="description" content="发送一个错误的 basic 头，使后端认证失败，chrome 系列，UC 例外  ‘http:&#x2F;&#x2F;log:out@&#39;+host+&#39;&#x2F;&#39; 方式清除认证缓存， 火狐系列，必须在单独页面处理，因为页面存在子框架时会多次认证  使用 document.execCommand(&quot;ClearAuthenticationCache&quot;); IE 系列   123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决 HTTP basic 认证注销问题">
+<meta property="og:url" content="https://milo-z.github.io/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="发送一个错误的 basic 头，使后端认证失败，chrome 系列，UC 例外  ‘http:&#x2F;&#x2F;log:out@&#39;+host+&#39;&#x2F;&#39; 方式清除认证缓存， 火狐系列，必须在单独页面处理，因为页面存在子框架时会多次认证  使用 document.execCommand(&quot;ClearAuthenticationCache&quot;); IE 系列   123456">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-06T03:44:08.160Z">
+<meta property="article:modified_time" content="2021-01-06T03:58:54.340Z">
+<meta property="article:author" content="Milo-z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://milo-z.github.io/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/milo-z" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">浅尝</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">前端小白</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国·深圳</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/milo-z" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/" class="title">解决 HTTP basic 认证注销问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-06T03:44:08.160Z" itemprop="datePublished">2021-01-06</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/06/prettier%E6%A0%BC%E5%BC%8F%E5%8C%96/" class="title">prettier格式化配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-06T03:39:35.227Z" itemprop="datePublished">2021-01-06</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-http basic认证注销" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      解决 HTTP basic 认证注销问题
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/" class="article-date">
+	  <time datetime="2021-01-06T03:44:08.160Z" itemprop="datePublished">2021-01-06</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <ol>
+<li><p>发送一个错误的 basic 头，使后端认证失败，chrome 系列，UC 例外</p>
+</li>
+<li><p>‘<a target="_blank" rel="noopener" href="http://log:out@&/#39;+host+&#39;/&#39;">http://log:out@&#39;+host+&#39;/&#39;</a> 方式清除认证缓存， 火狐系列，必须在单独页面处理，因为页面存在子框架时会多次认证</p>
+</li>
+<li><p>使用 <code>document.execCommand(&quot;ClearAuthenticationCache&quot;);</code> IE 系列</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_mime</span>(<span class="params">option, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> mimeTypes = navigator.mimeTypes;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> mt <span class="keyword">in</span> mimeTypes) &#123;</span><br><span class="line">    <span class="keyword">if</span> (mimeTypes[mt][option] == value) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> is360 = _mime(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;application/vnd.chromium.remoting-viewer&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> agt = navigator.userAgent.toLowerCase();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> isSafari = agt.indexOf(<span class="string">&quot;safari&quot;</span>) != -<span class="number">1</span> &amp;&amp; agt.indexOf(<span class="string">&quot;chrome&quot;</span>) == -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//IE edge 360兼容模式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (</span><br><span class="line">  agt.indexOf(<span class="string">&quot;msie&quot;</span>) != -<span class="number">1</span> ||</span><br><span class="line">  agt.indexOf(<span class="string">&quot;edge&quot;</span>) != -<span class="number">1</span> ||</span><br><span class="line">  agt.indexOf(<span class="string">&quot;trident&quot;</span>) != -<span class="number">1</span> ||</span><br><span class="line">  agt.indexOf(<span class="string">&quot;compatible&quot;</span>) != -<span class="number">1</span></span><br><span class="line">) &#123;</span><br><span class="line">  <span class="comment">// IE clear HTTP Authentication</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">document</span>.execCommand(<span class="string">&quot;ClearAuthenticationCache&quot;</span>);</span><br><span class="line"></span><br><span class="line">  top.location.href = <span class="string">&quot;/&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (is360) &#123;</span><br><span class="line">  <span class="comment">//360 极速模式</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> host = top.location.host;</span><br><span class="line"></span><br><span class="line">  top.location = <span class="string">&quot;http://log:out@&quot;</span> + host + <span class="string">&quot;/&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    top.location.href = <span class="string">&quot;/&quot;</span>;</span><br><span class="line">  &#125;, <span class="number">100</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (agt.indexOf(<span class="string">&quot;firefox&quot;</span>) != -<span class="number">1</span> || agt.indexOf(<span class="string">&quot;ubrowser&quot;</span>) != -<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">//火狐浏览器 || uc</span></span><br><span class="line"></span><br><span class="line">  top.location.href = <span class="string">&quot;/logout.html&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">//其他</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> xmlhttp = createXMLObject();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s get the force page to logout for mozilla</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.open(<span class="string">&quot;get&quot;</span>, <span class="string">&quot;/&quot;</span>);</span><br><span class="line"></span><br><span class="line">  xmlhttp.setRequestHeader(<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Basic&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s send the request to the server</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.send(<span class="string">&quot;sss&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//safari</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isSafari) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s abort the request</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.abort();</span><br><span class="line"></span><br><span class="line">  top.location.href = <span class="string">&quot;/&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//logout.html</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setFirefox</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> logout = sessionStorage.getItem(<span class="string">&quot;logoutRefIndex&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> host = top.location.host;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//第一次进入</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!logout) &#123;</span><br><span class="line">    sessionStorage.setItem(<span class="string">&quot;logoutRefIndex&quot;</span>, <span class="string">&quot;1&quot;</span>);</span><br><span class="line"></span><br><span class="line">    top.location = <span class="string">&quot;http://log:out@&quot;</span> + host + <span class="string">&quot;/logout.html&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//第二次进入</span></span><br><span class="line"></span><br><span class="line">  sessionStorage.setItem(<span class="string">&quot;logoutRefIndex&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    top.location = <span class="string">&quot;http://&quot;</span> + host + <span class="string">&quot;/&quot;</span>;</span><br><span class="line">  &#125;, <span class="number">200</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> agt = navigator.userAgent.toLowerCase();</span><br><span class="line"></span><br><span class="line">  <span class="comment">//火狐浏览器</span></span><br><span class="line">  <span class="keyword">if</span> (agt.indexOf(<span class="string">&quot;firefox&quot;</span>) != -<span class="number">1</span>) &#123;</span><br><span class="line">    setFirefox();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//UC浏览器</span></span><br><span class="line">  setUc();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setUc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> host = top.location.host;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s get the force page to logout for mozilla</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.open(<span class="string">&quot;get&quot;</span>, <span class="string">&quot;/&quot;</span>);</span><br><span class="line"></span><br><span class="line">  xmlhttp.setRequestHeader(<span class="string">&quot;Authorization&quot;</span>, <span class="string">&quot;Basic&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s send the request to the server</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.send(<span class="string">&quot;sss&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Let&#x27;s abort the request</span></span><br><span class="line"></span><br><span class="line">  xmlhttp.abort();</span><br><span class="line"></span><br><span class="line">  top.location = <span class="string">&quot;http://log:out@&quot;</span> + host + <span class="string">&quot;/&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//top.location.href = &quot;/&quot;;</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    top.location = <span class="string">&quot;http://&quot;</span> + host;</span><br><span class="line">  &#125;, <span class="number">200</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">init();</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://milo-z.github.io/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/" title="解决 HTTP basic 认证注销问题" target="_blank" rel="external">https://milo-z.github.io/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/milo-z" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/milo-z" target="_blank"><span class="text-dark">浅尝</span><small class="ml-1x">前端小白</small></a></h3>
+        <div>一只在前端摸爬滚打的猿类</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/01/06/prettier%E6%A0%BC%E5%BC%8F%E5%8C%96/" title="prettier格式化配置"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/milo-z" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
