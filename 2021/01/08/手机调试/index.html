@@ -17,18 +17,31 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>tag | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tag">
-<meta property="og:url" content="https://milo-z.github.io/tag/index.html">
+  <title>手机调试 | Hexo</title>
+  <meta name="description" content="手机浏览器调试方法1. Chrome DevToolsF12 2.  weinre Web Inspector Remote 基于webkit的远程调试工具 使用方式，手机PC同一局域网 123451. npm -g install weinre2. weinre --boundHost -all- --httpPort 80803. &lt;script src&#x3D;&quot;http:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手机调试">
+<meta property="og:url" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/index.html">
 <meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="手机浏览器调试方法1. Chrome DevToolsF12 2.  weinre Web Inspector Remote 基于webkit的远程调试工具 使用方式，手机PC同一局域网 123451. npm -g install weinre2. weinre --boundHost -all- --httpPort 80803. &lt;script src&#x3D;&quot;http:">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-01-06T02:55:59.000Z">
-<meta property="article:modified_time" content="2021-01-06T02:55:59.353Z">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/weinre1.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/weinre-pc.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/weinre-phone1.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/chrome-pc.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/chrome-pc1.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/spy-debugger.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/spy-debugger-iphone.jpg">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/spy-debugger-proxy.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/vConsole.png">
+<meta property="og:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/Eruda.png">
+<meta property="article:published_time" content="2021-01-08T05:57:55.000Z">
+<meta property="article:modified_time" content="2021-01-08T06:05:44.949Z">
 <meta property="article:author" content="Milo-z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/weinre1.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://milo-z.github.io/tag/index.html">
+  <link rel="canonical" href="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/index.html">
   
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -224,14 +237,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="page-" class="article article-type-page" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-手机调试" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      tag
+      手机调试
     </h1>
   
 
@@ -239,8 +252,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/tag/index.html" class="article-date">
-	  <time datetime="2021-01-06T02:55:59.000Z" itemprop="datePublished">2021-01-06</time>
+	<a href="/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/" class="article-date">
+	  <time datetime="2021-01-08T05:57:55.000Z" itemprop="datePublished">2021-01-08</time>
 	</a>
 </span>
         
@@ -248,13 +261,47 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/tag/index.html#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        
+        <h3 id="手机浏览器调试方法"><a href="#手机浏览器调试方法" class="headerlink" title="手机浏览器调试方法"></a>手机浏览器调试方法</h3><h4 id="1-Chrome-DevTools"><a href="#1-Chrome-DevTools" class="headerlink" title="1. Chrome DevTools"></a>1. Chrome DevTools</h4><p>F12</p>
+<h4 id="2-weinre"><a href="#2-weinre" class="headerlink" title="2.  weinre"></a>2.  weinre</h4><p> Web Inspector Remote 基于webkit的远程调试工具</p>
+<p>使用方式，手机PC同一局域网</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. npm -g install weinre</span><br><span class="line">2. weinre --boundHost -all- --httpPort 8080</span><br><span class="line">3. &lt;script src&#x3D;&quot;http:&#x2F;&#x2F;192.168.0.xxx:8080&#x2F;target&#x2F;target-script.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">4. 手机访问需要访问的网页</span><br><span class="line">5. PC访问weinre服务器地址 127.0.0.1:8080</span><br></pre></td></tr></table></figure>
+<p>见下图</p>
+<p><img src="weinre1.png" alt="见下图"></p>
+<p>PC端</p>
+<p><img src="weinre-pc.png"></p>
+<p>手机端</p>
+<p><img src="weinre-phone1.png"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nupthale/weinre">weinre使用说明</a></p>
+<h4 id="3-微信开发者工具"><a href="#3-微信开发者工具" class="headerlink" title="3. 微信开发者工具"></a>3. 微信开发者工具</h4><h4 id="4-Android-chrome"><a href="#4-Android-chrome" class="headerlink" title="4. Android + chrome"></a>4. Android + chrome</h4><p>步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1. 手机开启调试模式，允许USB调试</span><br><span class="line">2. USB连接电脑（不同手机可能需要下载对应的手机助手）</span><br><span class="line">3. PC chrome浏览器下输入chrome:&#x2F;&#x2F;inspect&#x2F;#devices</span><br><span class="line">	首次需要翻墙，如不能翻墙 修改hosts，路径 C:\Windows\System32\drivers\etc，增加下面的两行</span><br><span class="line">	61.91.161.217    chrome-devtools-frontend.appspot.com</span><br><span class="line">	61.91.161.217    chrometophone.appspot.com</span><br><span class="line">4. 手机端打开谷歌浏览器或者UC浏览器开发版，访问对应的页面</span><br><span class="line">4. 可以看到手机打开的网页信息，点击对应的inspect 跳转到熟悉的界面了</span><br><span class="line">5. 哪里不会点哪里</span><br></pre></td></tr></table></figure>
+<p>PC端远程信息</p>
+<p><img src="chrome-pc.png"></p>
+<p>手机调试界面</p>
+<img src="chrome-pc1.png" style="zoom:80%;" />
+
+<h4 id="5-IPhone-Safari"><a href="#5-IPhone-Safari" class="headerlink" title="5. IPhone + Safari"></a>5. IPhone + Safari</h4><h4 id="6-spy-debugger"><a href="#6-spy-debugger" class="headerlink" title="6. spy-debugger"></a>6. spy-debugger</h4><p>步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">![spy-debugger-iphone](spy-debugger-iphone.jpg)1. npm install spy-debugger -g</span><br><span class="line">2. 手机PC同一局域网</span><br><span class="line">3. PC cmd 输入spy-debugger</span><br><span class="line">4. 设置手机代理</span><br><span class="line">5. 安装证书</span><br><span class="line">6. 手机浏览器打开页面</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/wuchangming/spy-debugger"> spy-debugger使用说明</a></p>
+<img src="spy-debugger.png" style="zoom:80%;" />
+
+<img src="spy-debugger-iphone.jpg" style="zoom:50%;" />
+
+
+
+<img src="spy-debugger-proxy.png" style="zoom:67%;" />
+
+<h4 id="7-vConsole"><a href="#7-vConsole" class="headerlink" title="7. vConsole"></a>7. vConsole</h4><p>页面引用<code>vconsole.js</code>，代码里面加入console信息</p>
+<p><img src="vConsole.png"></p>
+<h4 id="8-Eruda"><a href="#8-Eruda" class="headerlink" title="8.  Eruda"></a>8.  Eruda</h4><p>在vConsole基础上增加了节点信息和样式信息，原理与vConsole一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">javascript:(function () &#123; var script &#x3D; document.createElement(&#39;script&#39;); script.src&#x3D;&quot;&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;eruda&quot;; document.body.appendChild(script); script.onload &#x3D; function () &#123; eruda.init() &#125; &#125;)();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;script src&#x3D;&quot;&#x2F;&#x2F;cdn.bootcss.com&#x2F;eruda&#x2F;1.5.2&#x2F;eruda.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;eruda.init();&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="Eruda.png" alt="示例图"></p>
+<h4 id="9-Fiddler-代理"><a href="#9-Fiddler-代理" class="headerlink" title="9. Fiddler + 代理"></a>9. Fiddler + 代理</h4>
       
     </div>
     <div class="article-footer">
@@ -263,7 +310,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://milo-z.github.io/tag/index.html" title="tag" target="_blank" rel="external">https://milo-z.github.io/tag/index.html</a>
+      <a href="https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/" title="手机调试" target="_blank" rel="external">https://milo-z.github.io/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -306,6 +353,16 @@
 
   <nav class="bar bar-footer clearfix" data-stick-bottom>
   <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/" title="解决 HTTP basic 认证注销问题"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
   
   
   <!-- Button trigger modal -->
@@ -415,6 +472,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+
+
+   
 
 
 
