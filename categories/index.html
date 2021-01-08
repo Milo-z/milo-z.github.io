@@ -39,6 +39,8 @@
   
   
   
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
   
 <meta name="generator" content="Hexo 5.3.0"></head>
 
@@ -173,7 +175,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2021/01/08/%E6%89%8B%E6%9C%BA%E8%B0%83%E8%AF%95/" class="title">手机调试</a>
+                <a href="/2021/01/08/devtools/" class="title">手机调试</a>
               </p>
               <p class="item-date">
                 <time datetime="2021-01-08T05:57:55.000Z" itemprop="datePublished">2021-01-08</time>
@@ -188,10 +190,10 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2021/01/06/http%20basic%E8%AE%A4%E8%AF%81%E6%B3%A8%E9%94%80/" class="title">解决 HTTP basic 认证注销问题</a>
+                <a href="/2021/01/06/prettier-format/" class="title">prettier格式化配置</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-01-06T03:44:08.160Z" itemprop="datePublished">2021-01-06</time>
+                <time datetime="2021-01-06T09:51:10.304Z" itemprop="datePublished">2021-01-06</time>
               </p>
             </div>
           </li>
@@ -203,10 +205,10 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2021/01/06/prettier%E6%A0%BC%E5%BC%8F%E5%8C%96/" class="title">prettier格式化配置</a>
+                <a href="/2021/01/06/http-basic/" class="title">解决 HTTP basic 认证注销问题</a>
               </p>
               <p class="item-date">
-                <time datetime="2021-01-06T03:39:35.227Z" itemprop="datePublished">2021-01-06</time>
+                <time datetime="2021-01-06T09:51:10.302Z" itemprop="datePublished">2021-01-06</time>
               </p>
             </div>
           </li>
@@ -446,6 +448,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
      
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 
